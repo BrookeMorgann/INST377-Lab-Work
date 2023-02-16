@@ -32,9 +32,9 @@ function updateSlidePosition() {
 function moveToNextSlide() {
   
   if(slidePosition === totalSlides - 1){
-    slidePosition = 0
+    slidePosition = 0;
   } else {
-    slidePosition += 1
+    slidePosition += 1;
   }
   /*
     add an if statement here that checks
@@ -46,10 +46,10 @@ function moveToNextSlide() {
 }
 function moveToPrevSlide() {
   
-  if(slidePosition === totalSlides - 3){
-    slidePosition = 3
+  if(slidePosition === 0){
+    slidePosition = 3;
   } else {
-    slidePosition -= 1
+    slidePosition -= 1;
   }
   // add your code in here for when you click the "prev" button
   /*
@@ -71,5 +71,10 @@ document.querySelector('.next') // Get the appropriate element (<button class="n
     moveToNextSlide(); // call the function above to handle this
   });
 
+document.querySelector('.prev')
+  .addEventListener('click', () => {
+    console.log('clicked prev');
+    moveToPrevSlide();
+  });
 // Paying close attention to the above queryselector, write one that fires
 // when you want a "prev" slide
