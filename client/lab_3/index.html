@@ -1,5 +1,46 @@
-<!--
-    Replace this with your working code from Lab 2, and include:
-    - The styles in this folder's `style.css`
-    - The script in script.js, which should be included via a `<script src="script.js" >` call before your closing </body> tag 
--->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brooke Morgan's Labs For 377</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="wrapper">
+    <header class="header"><h1>Brooke Morgan's Labs For INST377</h1></header>
+    <div class="container">
+      <div class="left_section box">
+        <h3>Album Names</h3>
+        <ul class="box">
+          <li>Who Really Cares - TV Girl</li>
+          <li>French Exit - TV Girl</li>
+          <li>Summer's Over - TV Girl</li>
+          <li>Aestheticadelica - TV Girl</li>
+          <li>See You On The Other Side - Korn</li>
+        </ul>
+      </div>
+  
+     <div class="right_section box">
+       <h3>Image Carousel</h3>
+        <div class="carousel">
+            <button class="prev">prev</button>
+            <div class="slides">
+              <div class="carousel_item visible"><img id="slide_1" src="images/hill_1.jpeg" alt="A hill with a road"/></div>
+              <div class="carousel_item hidden"><img id="slide_2" src="images/hill_2.jpeg" alt="A hill with pine trees"/></div>
+              <div class="carousel_item hidden"><img id="slide_3" src="images/hill_3.jpeg" alt="A hill with some fog"/></div>
+              <div class="carousel_item hidden"><img id="slide_4" src="images/hill_4.jpeg" alt="A hill with some fog and sunlight"/></div>
+            </div>
+            <button class="next">next</button>
+        </div>
+        <div>
+          <p class="box"> The images above are hill tops and mountains.
+          </p>
+        </div>
+      </div>  
+    </div>
+    <footer class="footer"><a href="http://github.com/BrookeMorgann/" target="_blank" rel="noopener noreferrer">BrookeMorgann GitHub</a></footer>
+  </div>
+  <script src="script.js" ></script>
+</body>
+</html>
