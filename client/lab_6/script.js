@@ -37,50 +37,59 @@ function cutRestaurantList(list) {
   })
 }
 
-async function mainEvent() { // the async keyword means we can make API requests
-  const mainForm = document.querySelector('.main_form');
-  const filterButton = document.querySelector('.filter_button');
-  const loadDataButton = document.querySelector('#data_load');
-  const generateListButton = document.querySelector('.generate');
-  
-  const loadAnimation = document.querySelector('#data_load_animation');
-  loadAnimation.style.display = 'none'
+async function mainEvent() {
+  /*
+    ## Main Event
+      Separating your main programming from your side functions will help you organize your thoughts
+      When you're not working in a heavily-commented "learning" file, this also is more legible
+      If you separate your work, when one piece is complete, you can save it and trust it
+  */
 
+  // the async keyword means we can make API requests
+  const form = document.querySelector('.main_form'); // get your main form so you can do JS with it
+  const submit = document.querySelector('button[type="submit"]'); // get a reference to your submit button
+  submit.style.display = 'none'; // let your submit button disappear
 
-  let currentList = []; // this is "scoped" to the main event function
-  
-
-  loadDataButton.addEventListener('click', async (submitEvent) => { // async has to be declared on every function that needs to "await" something
-
-    console.log('Loading data');
-    loadAnimation.style.display = 'inline-block'; 
-
-    const results = await fetch('https://data.princegeorgescountymd.gov/resource/umjn-t2iz.json');
-
-    // This changes the response from the GET into data we can use - an "object"
-    currentList = await results.json();
+  /*
+    Let's get some data from the API - it will take a second or two to load
     
-    loadAnimation.style.display = 'none'
-    console.table(currentList);
-  });
+   */
+  const results = await fetch('https://data.princegeorgescountymd.gov/resource/umjn-t2iz.json');
+  const arrayFromJson = await results.json(); // here is where we get the data from our request as JSON
 
-  filterButton.addEventListener('click', (event) => {
-      console.log('clicked filterButton');
+  /*
+    Below this comment, we log out a table of all the results:
+  */
+  console.table(arrayFromJson);
 
-      const formData = new FormData(mainForm);
-      const formProps = Object.fromEntries(formData);
+  // in your browser console, try expanding this object to see what fields are available to work with
+  // for example: arrayFromJson.data[0].name, etc
+  console.log(arrayFromJson.data[0]);
 
-      console.log(formProps);
-      const newList = filterList(currentList, formProps.resto);
-      injectHTML(newList);
-      console.log(newList);
-  })
-  
-  generateListButton.addEventListener('click', (event) => {
-    console.log('generate new list')
-    const restaurantsList = cutRestaurantList(currentList)
-    injectHTML(restaurantsList)
-  })
+  // this is called "string interpolation" and is how we build large text blocks with variables
+  console.log(`${arrayFromJson.data[0].name} ${arrayFromJson.data[0].category}`);
+
+  // This IF statement ensures we can't do anything if we don't have information yet
+  if (arrayFromJson.data?.length > 0) { // the question mark in this means "if this is set at all"
+    submit.style.display = 'block'; // let's turn the submit button back on by setting it to display as a block when we have data available
+
+    // And here's an eventListener! It's listening for a "submit" button specifically being clicked
+    // this is a synchronous event event, because we already did our async request above, and waited for it to resolve
+    form.addEventListener('submit', (submitEvent) => {
+      // This is needed to stop our page from changing to a new URL even though it heard a GET request
+      submitEvent.preventDefault();
+
+      // This constant will have the value of your 15-restaurant collection when it processes
+      const restaurantList = processRestaurants(arrayFromJson.data);
+
+      // And this function call will perform the "side effect" of injecting the HTML list for you
+      injectHTML(restaurantList);
+
+      // By separating the functions, we open the possibility of regenerating the list
+      // without having to retrieve fresh data every time
+      // We also have access to some form values, so we could filter the list based on name
+    });
+  }
 }
 
 /*
